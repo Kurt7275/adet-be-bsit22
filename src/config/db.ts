@@ -2,10 +2,10 @@ import mysql from 'mysql2/promise';
 
 const dbConfig = {
     host: 'localhost',
-    port: 3306, // Put the database port here
+    port: 3306,
     user: 'root',
-    password: 'admin123',
-    database: 'bsit-22', // Put here your database
+    password: '',
+    database: 'bsit-22',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
