@@ -16,14 +16,14 @@ A RESTful API for managing blog posts, built with **Hono**, **TypeScript**, and 
 ```
 src/
 ├── config/
-│   └── db.ts           # Database connection pool
+│   └── db.ts                # Database connection pool
 ├── controllers/
 │   └── posts.controller.ts  # Request handlers
 ├── models/
-│   └── posts.model.ts  # TypeScript interfaces
+│   └── posts.model.ts       # TypeScript interfaces
 ├── routes/
-│   └── posts.route.ts  # API route definitions
-└── index.ts            # App entry point
+│   └── posts.route.ts       # API route definitions
+└── index.ts                 # App entry point
 ```
 
 ---
@@ -94,11 +94,67 @@ src/
 
 ---
 
-## 📨 Request Examples
+## 🧪 Testing with Postman
 
-### Create a Post
+### ⬇️ Download Postman
+👉 https://www.postman.com/downloads
+
+---
+
+### 1️⃣ GET — Fetch All Posts
+
+| Field | Value |
+|-------|-------|
+| Method | `GET` |
+| URL | `http://localhost:3000/posts` |
+| Body | None |
+
+**Expected Response:**
 ```json
-POST /posts
+[
+  {
+    "post_id": 1,
+    "title": "My First Post",
+    "description": "Hello World",
+    "status": "Active",
+    "created_at": "2026-03-15T08:53:42.000Z"
+  }
+]
+```
+
+---
+
+### 2️⃣ GET — Fetch Post by ID
+
+| Field | Value |
+|-------|-------|
+| Method | `GET` |
+| URL | `http://localhost:3000/posts/1` |
+| Body | None |
+
+**Expected Response:**
+```json
+{
+  "post_id": 1,
+  "title": "My First Post",
+  "description": "Hello World",
+  "status": "Active",
+  "created_at": "2026-03-15T08:53:42.000Z"
+}
+```
+
+---
+
+### 3️⃣ POST — Create a New Post
+
+| Field | Value |
+|-------|-------|
+| Method | `POST` |
+| URL | `http://localhost:3000/posts` |
+| Body | `raw` → `JSON` |
+
+**Request Body:**
+```json
 {
   "title": "My First Post",
   "description": "Hello World",
@@ -106,13 +162,79 @@ POST /posts
 }
 ```
 
-### Update a Post
+**Expected Response** `201 Created`:
 ```json
-PATCH /posts/1
+{
+  "post_id": 1,
+  "title": "My First Post",
+  "description": "Hello World",
+  "status": "Active",
+  "created_at": "2026-03-15T08:53:42.000Z"
+}
+```
+
+> ⚠️ `title` is **required**. Leaving it empty returns a `400` error.
+
+---
+
+### 4️⃣ PATCH — Update a Post
+
+| Field | Value |
+|-------|-------|
+| Method | `PATCH` |
+| URL | `http://localhost:3000/posts/1` |
+| Body | `raw` → `JSON` |
+
+**Request Body:**
+```json
 {
   "status": "Inactive"
 }
 ```
+
+> You can update any combination of `title`, `description`, and `status`.
+
+**Expected Response** `200 OK`:
+```json
+{
+  "post_id": 1,
+  "title": "My First Post",
+  "description": "Hello World",
+  "status": "Inactive",
+  "created_at": "2026-03-15T08:53:42.000Z"
+}
+```
+
+---
+
+### 5️⃣ DELETE — Remove a Post
+
+| Field | Value |
+|-------|-------|
+| Method | `DELETE` |
+| URL | `http://localhost:3000/posts/1` |
+| Body | None |
+
+**Expected Response** `200 OK`:
+```json
+{
+  "message": "Post successfully deleted"
+}
+```
+
+**If post doesn't exist** `404 Not Found`:
+```json
+{
+  "message": "Post not found"
+}
+```
+
+---
+
+### 💡 Postman Tips
+- Always do a **POST** first to create data before testing GET, PATCH, or DELETE
+- Set Body type to **raw** and format to **JSON** for POST and PATCH requests
+- Check the **status code** in Postman to verify correct responses
 
 ---
 
